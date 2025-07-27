@@ -1,20 +1,22 @@
 package Logica;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Alumno {
 
-    int nota1;
-    int nota2;
-    int nota3;
-    String nombre;
+    ArrayList <Alumno> alumno = new ArrayList<>();
+
+    private int nota;
+    private String nombre;
+
 
     public Alumno() {
     }
 
-    public Alumno(String nombre, int nota1, int nota2, int nota3) {
+    public Alumno(String nombre, int nota) {
         this.nombre = nombre;
-        this.nota1 = nota1;
-        this.nota2 = nota2;
-        this.nota3 = nota3;
+        this.nota = nota;
     }
 
     public String getNombre() {
@@ -25,42 +27,53 @@ public class Alumno {
         this.nombre = nombre;
     }
 
-    public int getNota1() {
-        return nota1;
+    public int getNota() {
+        return nota;
     }
 
-    public void setNota1(int nota1) {
-        this.nota1 = nota1;
+    public void setNota(int nota) {
+        this.nota = nota;
     }
 
-    public int getNota3() {
-        return nota3;
-    }
-
-    public void setNota3(int nota3) {
-        this.nota3 = nota3;
-    }
-
-    public int getNota2() {
-        return nota2;
-    }
-
-    public void setNota2(int nota2) {
-        this.nota2 = nota2;
-    }
-
-    public void calcularPromedio() {
-        int promedio = (nota1 + nota2 + nota3 ) / 3;
-        System.out.println("El promedio de su alumno es: " + promedio);
+    public double calcularPromedio() {
+        double suma = 0;
+        for (Alumno a: alumno){
+            suma += a.getNota();
+        }
+        return suma / alumno.size();
     }
 
     public void mostrarInformacion() {
         System.out.println("La informacion que usted proporcionó es: ");
         System.out.println("Nombre: " + nombre);
-        System.out.println("Nota 1: " + nota1);
-        System.out.println("Nota 2: " + nota2);
-        System.out.println("Nota 3: " + nota3);
 
-        calcularPromedio();
+        for(Alumno a: alumno){
+            System.out.println("Nota: " + a.getNota());
+        }
+
+        if (calcularPromedio() <= 6) {
+            System.out.println("El alumno " + nombre + "Ha reprobado la materia");
+            System.out.println("El promedio de su alumno es: " + calcularPromedio());
+        } else {
+            System.out.println("El alumno " + nombre + "Ha aprobado la materia");
+            System.out.println("El promedio de el alumno es: " + calcularPromedio());
+        }
+    }
+
+    public void ingresarInformacion() {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Ingrese el nombre de su alumno: ");
+        setNombre(sc.nextLine());
+
+        for (int i = 0; i < 3; i++) {
+            System.out.println("Ingresa la nota: ");
+            setNota(sc.nextInt());
+            alumno.add(new Alumno(getNombre(),getNota()));
+        }
+        sc.close();
+
+        mostrarInformacion();
     }
 }
